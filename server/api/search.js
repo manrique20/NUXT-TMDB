@@ -1,7 +1,7 @@
 export default defineEventHandler((event)=>{
-    const{query} = getQuery(event);
+    const{query, page} = getQuery(event);
     const config = useRuntimeConfig();
-    return $fetch(`${config.apiBaseUrl}/search/movie?query=${query}`, {
+    return $fetch(`${config.apiBaseUrl}/search/movie?query=${query}&page=${page}`, {
         method: 'GET',
         headers:{
             "Authorization": `Vearer ${config.apiKey}`

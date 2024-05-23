@@ -9,4 +9,6 @@ export type Movie={
     runtime: number | null;
     overview: string;
     poster_path: string;
+    adult: boolean;
+    vote_average: number;
 }

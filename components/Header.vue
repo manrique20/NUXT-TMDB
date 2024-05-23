@@ -1,39 +1,48 @@
 <template>
   <div class="header">
-    <img class="imdb" src="../images/imdb.jpg" alt="IMDB" />
+    <NuxtLink to="/">
+      <img class="imdb" src="../images/imdb.jpg" alt="IMDB" />
+    </NuxtLink>
     <div class="search-bar">
       <input
         type="text"
         placeholder="Search for a movie..."
         v-model="searchTerm"
-        @keyup.enter="updateParent"
+        @keyup.enter="handleSearch"
       />
-      <button @click="updateParent">
+      <button @click="handleSearch">
         <img class="loupe" src="../images/loupe.png" alt="loupe" />
       </button>
     </div>
     <nav>
       <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Acerca de</a></li>
-        <li><a href="#">Contacto</a></li>
+        <NuxtLink to="/"> Inicio </NuxtLink>
+        <li><a href="#"> Acerca de </a></li>
+        <li><a href="#"> Contacto </a></li>
       </ul>
     </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
 const emits = defineEmits(['update:text']);
 const searchTerm = ref('');
+const router = useRouter();
+const route = useRoute();
 
-const updateParent = () => {
-  emits('update:text', searchTerm.value);
+const handleSearch = () => {
+  if (route.path !== '/') {
+    router.push({ path: '/', query: { search: searchTerm.value } });
+  } else {
+    emits('update:text', searchTerm.value);
+  }
 };
 </script>
 
-<style scoped>
+<style scoped >
 .header {
   background-color: rgb(18, 18, 18);
   padding: 20px;
@@ -41,13 +50,14 @@ const updateParent = () => {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+
 }
 
 .header img.imdb {
-  width: 100px;
-  height: auto;
-  margin-bottom: 10px;
-}
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
 
 .search-bar {
   display: flex;
